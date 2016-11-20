@@ -175,6 +175,7 @@
     <TypeScriptCompile Include="app\authors.component.ts" />
     <TypeScriptCompile Include="app\authors.service.ts" />
     <TypeScriptCompile Include="app\auto-grow.directive.ts" />
+    <TypeScriptCompile Include="app\course.model.ts" />
     <TypeScriptCompile Include="app\course.service.ts" />
     <TypeScriptCompile Include="app\courses.component.ts" />
     <TypeScriptCompile Include="app\main.ts" />

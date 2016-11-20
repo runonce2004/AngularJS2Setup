@@ -10,20 +10,38 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var course_service_1 = require('./course.service');
+var course_model_1 = require('./course.model');
 var auto_grow_directive_1 = require('./auto-grow.directive');
+var forms_1 = require('@angular/forms');
 var CoursesComponent = (function () {
-    function CoursesComponent(courseService) {
+    function CoursesComponent(courseService, fb) {
         this.title = "The title of courses page";
+        this.email = new forms_1.FormControl("", forms_1.Validators.required);
+        this.selectCourse = new course_model_1.Course(0, '');
         this.courses = courseService.getCourses();
+        this.loginForm = fb.group({
+            email: ["", forms_1.Validators.required],
+            password: ["", forms_1.Validators.required]
+        });
     }
+    CoursesComponent.prototype.onSubmit = function (value) {
+        console.log('you submitted value: ', value);
+    };
+    CoursesComponent.prototype.onItemClicked = function (item) {
+        this.selectCourse = item;
+    };
+    CoursesComponent.prototype.onClickAddCourse = function (item) {
+        debugger;
+        this.courses.push(item);
+    };
     CoursesComponent = __decorate([
         core_1.Component({
             selector: 'courses',
-            template: "\n        <h2>Courses</h2>\n        {{title}}\n        <input type=\"text\" autoGrow />\n        <ul>\n            <li *ngFor=\"let course of courses\">\n                {{ course}}\n            </li>\n        </ul>\n        ",
+            template: "\n        <h2>Courses</h2>\n        {{title}}\n        <input type=\"text\" autoGrow />\n        <ul>\n            <li *ngFor=\"let course of courses\" (click)=\"onItemClicked(course)\">\n                {{course.id}},{{ course.name}}\n            </li>\n        </ul>\n        <!-- <input type=\"text\" [(ngModel)]=\"selectCourse.name\" /> -->\n        <input type=\"text\"  />\n        <button (click)=\"onClickAddCourse(selectCourse)\" >Add Course</button>\n\n        <form [formGroup]=\"loginForm\" (ngSubmit)=\"onSubmit(loginForm.value)\">\n            <input name=\"email\" formControlName=\"email\">\n            <input name=\"password\" type=\"password\" formControlName=\"password\">\n            <button type=\"submit\">Log in</button>\n        </form>\n        ",
             providers: [course_service_1.CourseService],
             directives: [auto_grow_directive_1.AutoGrowDirective]
         }), 
-        __metadata('design:paramtypes', [course_service_1.CourseService])
+        __metadata('design:paramtypes', [course_service_1.CourseService, forms_1.FormBuilder])
     ], CoursesComponent);
     return CoursesComponent;
 }());
